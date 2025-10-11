@@ -1,9 +1,8 @@
 # 🩸 Drop4Life – Smart Blood Donation & Request Platform
 
 **Author:** 🧑‍💻 *Anuj Bajpai*  
-**Version:** 1.0  
-**License:** MIT  
-**GitHub Repo:** [github.com/anujbajpai/Drop4Life](https://github.com/anujbajpai/Drop4Life)
+**Version:** 1.0   
+**GitHub Repo:** [github.com/anujbajpai/Drop4Life](https://github.com/theanujbajpai/Drop4Life)
 
 ---
 
@@ -155,15 +154,9 @@ Visit 👉 **http://localhost:5173/** (or your dev port) to access Drop4Life.
 **Developed & Maintained by:**  
 👨‍💻 **Anuj Bajpai**  
 💼 Full Stack Developer | Innovator | Problem Solver  
-🌐 [LinkedIn](https://linkedin.com/in/anujbajpai) | [GitHub](https://github.com/anujbajpai)
+🌐 [LinkedIn](www.linkedin.com/in/anuj-bajpai-a2765b283) | [GitHub](https://github.com/theanujbajpai)
 
 > “Drop4Life is not just a project — it’s a mission to save lives through code.” ❤️
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License** – you’re free to use, modify, and distribute it for learning or open-source contributions.
 
 ---
 
