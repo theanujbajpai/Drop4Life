@@ -36,7 +36,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Mock chat rooms data
+  // Mock chat rooms (replace later with real DB data)
   const [chatRooms] = useState<ChatRoom[]>([
     {
       id: "1",
@@ -73,82 +73,61 @@ export default function ChatPage() {
     },
   ])
 
-  // Mock messages for selected chat
+  // ✅ Fetch real messages from Supabase API when chat selected
   useEffect(() => {
-    if (selectedChat) {
-      const mockMessages: Message[] = [
-        {
-          id: "1",
-          senderId: "recipient",
-          senderName: "Sarah Johnson",
-          content: "Hi! I urgently need O- blood for my surgery tomorrow. Are you available?",
-          timestamp: new Date(Date.now() - 60 * 60 * 1000),
-          type: "text",
-        },
-        {
-          id: "2",
-          senderId: "system",
-          senderName: "System",
-          content: "Blood type compatibility confirmed: O- → O-",
-          timestamp: new Date(Date.now() - 55 * 60 * 1000),
-          type: "system",
-        },
-        {
-          id: "3",
-          senderId: "donor",
-          senderName: "Michael Chen",
-          content: "Yes, I'm available! I can donate today. Which hospital should I go to?",
-          timestamp: new Date(Date.now() - 50 * 60 * 1000),
-          type: "text",
-        },
-        {
-          id: "4",
-          senderId: "recipient",
-          senderName: "Sarah Johnson",
-          content: "St. Mary's Hospital, 123 Medical Drive. Room 405. Thank you so much!",
-          timestamp: new Date(Date.now() - 45 * 60 * 1000),
-          type: "text",
-        },
-        {
-          id: "5",
-          senderId: "donor",
-          senderName: "Michael Chen",
-          content: "Perfect! I'm on my way. Should be there in about 20 minutes.",
-          timestamp: new Date(Date.now() - 10 * 60 * 1000),
-          type: "text",
-        },
-        {
-          id: "6",
-          senderId: "recipient",
-          senderName: "Sarah Johnson",
-          content: "Thank you so much! I'll be there in 15 minutes.",
-          timestamp: new Date(Date.now() - 5 * 60 * 1000),
-          type: "text",
-        },
-      ]
-      setMessages(mockMessages)
+    const fetchMessages = async () => {
+      if (!selectedChat) return
+      try {
+        const res = await fetch(`/api/chat/messages?chatRoomId=${selectedChat}`)
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || "Failed to fetch messages")
+        setMessages(
+          data.messages.map((m: any) => ({
+            ...m,
+            timestamp: new Date(m.timestamp),
+          }))
+        )
+      } catch (err) {
+        console.error("Failed to load messages:", err)
+      }
     }
+
+    fetchMessages()
   }, [selectedChat])
+
+  // ✅ Send message to backend
+  const sendMessage = async () => {
+    if (!message.trim() || !selectedChat) return
+
+    const newMessage = {
+      chatRoomId: selectedChat,
+      senderId: "current-user", // Replace with real user ID from Supabase Auth later
+      content: message,
+      messageType: "text",
+    }
+
+    try {
+      const res = await fetch("/api/chat/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMessage),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to send message")
+
+      // Add saved message to local list
+      setMessages((prev) => [...prev, data.message])
+      setMessage("")
+    } catch (err) {
+      console.error("Send message failed:", err)
+      alert("Failed to send message. Check console for details.")
+    }
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
-
-  const sendMessage = () => {
-    if (!message.trim() || !selectedChat) return
-
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      senderId: "current-user",
-      senderName: "You",
-      content: message,
-      timestamp: new Date(),
-      type: "text",
-    }
-
-    setMessages((prev) => [...prev, newMessage])
-    setMessage("")
-  }
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
@@ -316,14 +295,22 @@ export default function ChatPage() {
                         </div>
                       ) : (
                         <div
-                          className={`max-w-md ${msg.senderId === "current-user" ? "bg-primary text-primary-foreground" : "bg-muted"} rounded-lg p-3`}
+                          className={`max-w-md ${
+                            msg.senderId === "current-user"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted"
+                          } rounded-lg p-3`}
                         >
                           {msg.senderId !== "current-user" && (
                             <p className="text-xs font-medium mb-1">{msg.senderName}</p>
                           )}
                           <p className="text-sm">{msg.content}</p>
                           <p
-                            className={`text-xs mt-1 ${msg.senderId === "current-user" ? "text-primary-foreground/70" : "text-muted-foreground"}`}
+                            className={`text-xs mt-1 ${
+                              msg.senderId === "current-user"
+                                ? "text-primary-foreground/70"
+                                : "text-muted-foreground"
+                            }`}
                           >
                             {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </p>
@@ -341,7 +328,7 @@ export default function ChatPage() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Type your message..."
-                      onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                       className="flex-1"
                     />
                     <Button onClick={sendMessage} className="bg-red-600 hover:bg-red-700">
