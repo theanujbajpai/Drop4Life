@@ -1,164 +1,86 @@
-# 🩸 Drop4Life – Smart Blood Donation & Request Platform
+# 🩸 Drop4Life — Production-Ready Blood Donation Platform
 
-**Author:** 🧑‍💻 *Anuj Bajpai*  
-**Version:** 1.0   
-**GitHub Repo:** [github.com/anujbajpai/Drop4Life](https://github.com/theanujbajpai/Drop4Life)
+> **Every Drop Can Save a Life**
 
----
+Drop4Life is a modern, full-stack blood donation platform that connects donors with recipients in real-time. Built with Angular and Spring Boot, it features smart donor matching, real-time WebSocket notifications, and a professional healthcare UI.
 
-## 🧭 Overview
+## 🚀 Tech Stack
 
-**Drop4Life** is an intelligent and user-friendly web application designed to **connect blood donors and recipients** efficiently.  
-It bridges the gap between **donors, patients, and hospitals** by providing a **real-time blood request and donation management system**.  
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | Angular 18, Angular Material, Tailwind CSS 3, Leaflet Maps |
+| **Backend** | Java 22, Spring Boot 3.3, Spring Security, Spring Data JPA |
+| **Database** | PostgreSQL 16 |
+| **Real-time** | WebSocket / STOMP |
+| **Auth** | JWT + Refresh Token, BCrypt |
+| **DevOps** | Docker, Docker Compose |
 
-The project was built with the goal of **saving lives** through **technology**, by simplifying the process of finding and donating blood.  
-Whether you are a **donor**, **recipient**, or **admin**, Drop4Life provides all the tools you need in one unified platform. ❤️
-
----
-
-## 🌟 Key Features
-
-🚨 **Instant Blood Requests** – Users can post urgent blood requirements with just a few clicks.  
-🩸 **Smart Donor Matching** – Automatically matches recipients with nearby donors based on blood group and location.  
-🔐 **Secure Authentication** – Secure user login using encrypted credentials and JWT.  
-📅 **Donation History** – Track your past donations, requests, and responses.  
-🗺️ **Location-Based Search** – Filter and locate donors or hospitals by city and pin code.  
-🧑‍💼 **Admin Panel** – Manage all donors, requests, and system data efficiently.  
-📢 **Email & Notification Alerts** – Automatic alerts to registered donors in case of emergency requests.  
-💾 **Cloud Database Integration** – Uses MongoDB Atlas for high performance and scalability.  
-📱 **Responsive UI** – Works smoothly on desktop, tablet, and mobile screens.
-
----
-
-## 🏗️ Tech Stack
-
-| Category | Technologies |
-|-----------|---------------|
-| **Frontend** | React.js ⚛️, Tailwind CSS 🎨, Axios 🌐 |
-| **Backend** | Node.js 🚀, Express.js 🧩 |
-| **Database** | MongoDB 🍃 |
-| **Authentication** | JWT Tokens 🔒, Bcrypt for password hashing |
-| **Cloud & Deployment** | Render / Vercel / MongoDB Atlas ☁️ |
-| **Version Control** | Git & GitHub 🧭 |
-
----
-
-## 🧩 System Architecture
-
-```
-Frontend (React.js)
-        ↓
-Backend API (Express.js + Node.js)
-        ↓
-Database (MongoDB Atlas)
-        ↓
-Notifications (Email + Alerts)
-```
-
-The architecture ensures **modular scalability** and **real-time responsiveness** using RESTful APIs.
-
----
-
-## 📂 Folder Structure
+## 📁 Project Structure
 
 ```
 Drop4Life/
-├── backend/                 # Node.js + Express server
-│   ├── models/              # Database schemas
-│   ├── routes/              # API routes (auth, donor, request)
-│   ├── controllers/         # Request handling logic
-│   ├── config/              # Database and environment setup
-│   └── server.js            # App entry point
-│
-├── frontend/                # React-based user interface
-│   ├── src/
-│   │   ├── components/      # UI components (cards, forms, navbar)
-│   │   ├── pages/           # User, donor, and admin pages
-│   │   ├── utils/           # API helpers and config
-│   │   └── App.js           # Main component
-│   └── public/
-│
-├── assets/                  # Images, logos, icons
-├── docs/                    # Documentation and screenshots
-└── README.md                # You are here 🙂
+├── frontend/          # Angular 18 application
+├── backend/           # Spring Boot 3.3 REST API
+├── docker-compose.yml # PostgreSQL + pgAdmin
+└── README.md
 ```
 
----
+## ⚡ Quick Start
 
-## ⚙️ Installation & Setup
+### Prerequisites
+- Java 21+ (JDK)
+- Node.js 18+
+- PostgreSQL 16+ (or Docker)
 
-Follow these steps to set up the project locally 👇
-
-### 1️⃣ Clone the Repository
+### 1. Start Database
 ```bash
-git clone https://github.com/anujbajpai/Drop4Life.git
-cd Drop4Life
+docker-compose up -d
 ```
 
-### 2️⃣ Setup Backend
+### 2. Start Backend
 ```bash
 cd backend
-npm install
-# Add your .env file with MONGO_URI, JWT_SECRET, and PORT
-npm start
+./mvnw spring-boot:run
 ```
+Backend runs at: `http://localhost:8080`
 
-### 3️⃣ Setup Frontend
+### 3. Start Frontend
 ```bash
-cd ../frontend
+cd frontend
 npm install
-npm run dev
+ng serve
 ```
+Frontend runs at: `http://localhost:4200`
 
-### 4️⃣ Open in Browser
-Visit 👉 **http://localhost:5173/** (or your dev port) to access Drop4Life.
+## 🔑 Features
 
----
+### Core
+- ✅ User registration with comprehensive validation
+- ✅ JWT authentication with refresh tokens
+- ✅ Role-based access (DONOR, REQUESTER, HOSPITAL, ADMIN)
+- ✅ Blood request creation and management
+- ✅ Smart donor matching with compatibility scoring
+- ✅ Real-time WebSocket notifications
+- ✅ Interactive map with nearby donors
 
-## 🧠 How It Works
+### Advanced
+- 🔥 Auto-expanding donor search radius
+- 🔥 Emergency priority levels (NORMAL, URGENT, CRITICAL)
+- 🔥 Donor eligibility and cooldown validation
+- 🔥 Hospital dashboard with inventory
+- 🔥 Admin analytics dashboard
+- 🔥 Dark/Light mode
+- 🔥 Mobile-responsive design
+- 🔥 Audit logging
 
-1. **User Registration/Login** 🔐 – Donors and recipients create secure accounts.  
-2. **Post Blood Request** 🩸 – A patient posts the requirement with blood group and location.  
-3. **Donor Search** 🔍 – The system finds nearby donors and notifies them automatically.  
-4. **Response & Communication** 💬 – Donors can respond and confirm donations.  
-5. **Admin Supervision** 🧑‍💼 – Admin monitors activity, validates users, and manages data.  
+## 🔐 API Endpoints
 
----
+See `backend/README.md` for complete API documentation.
 
-## 📸 Screenshots (Sample)
+## ⚠️ Disclaimer
 
-| Section | Preview |
-|----------|----------|
-| 🏠 Home Page | *Shows project intro and navigation* |
-| 🧍 Donor Dashboard | *List of donors and requests* |
-| 🩸 Request Page | *Form to create a new blood request* |
-| 🔐 Login / Signup | *User authentication interface* |
-| 🧑‍💼 Admin Panel | *Manage users, requests, and donations* |
+Drop4Life is a **donor-matching platform**, NOT a medical service or blood bank. Final donation eligibility is determined by qualified medical staff. In case of medical emergency, call **112** (India) immediately.
 
-*(Add screenshots inside `/docs/screenshots` folder)*
+## 📄 License
 
----
-
-## 🚀 Future Enhancements
-
-- 📍 **Google Maps Integration** – Live donor tracking  
-- 📱 **Mobile App (React Native)** – Native Android/iOS version  
-- 🤖 **AI Health Insights** – Smart recommendations for donors  
-- 🩹 **Hospital Partner Module** – For verified hospital-based blood drives  
-- 💬 **Live Chat Feature** – Real-time donor-recipient communication  
-
----
-
-## 🧑‍💻 Developer Information
-
-**Developed & Maintained by:**  
-👨‍💻 **Anuj Bajpai**  
-💼 Full Stack Developer | Innovator | Problem Solver  
-🌐 [LinkedIn](www.linkedin.com/in/anuj-bajpai-a2765b283) | [GitHub](https://github.com/theanujbajpai)
-
-> “Drop4Life is not just a project — it’s a mission to save lives through code.” ❤️
-
----
-
-### ⭐ Don’t forget to star the repo if you like it!  
-> Your support helps keep this initiative alive 🩸✨
+MIT License
